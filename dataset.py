@@ -3,8 +3,8 @@ import os
 import cv2
 import pickle
 
-IMG_WIDTH = 30
-IMG_HEIGHT = 30
+IMG_WIDTH = 45
+IMG_HEIGHT = 45
 
 
 def create_dataset(img_folder):
@@ -65,3 +65,28 @@ def encode_labels(labels):
     for i in range(len(labels)):
         res[i] = encoder.get(labels[i])
     return res
+
+
+def decode_predictions(predictions):
+    result = ""
+    decoder = {
+        0: "0",
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5",
+        6: "6",
+        7: "7",
+        8: "8",
+        9: "9",
+        10: "+",
+        11: "-",
+        12: "/",
+        13: "*",
+        14: "(",
+        15: ")"
+    }
+    for p in predictions:
+        result += decoder.get(p)
+    return result

@@ -44,6 +44,7 @@ class Detector:
             if cv2.contourArea(c) > 40:
                 x, y, w, h = cv2.boundingRect(c)
                 crop = 255 - image[y:y + h, x:x + w]
+                crop = cv2.resize(crop, (30, 30), interpolation=cv2.INTER_AREA)
                 crop_list.append(crop)
                 crop_coord.append([x, y, w, h])
                 if self.verbose:

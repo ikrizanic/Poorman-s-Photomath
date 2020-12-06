@@ -7,7 +7,13 @@ IMG_WIDTH = 45
 IMG_HEIGHT = 45
 
 
-def create_dataset(img_folder):
+def create_dataset(img_folder, tweak=False):
+    """
+    Saves dataset in form of pickle files
+    :param img_folder: path to folder with directories of image samples for building model
+    :param tweak: If true images will be dilated and eroded once
+    """
+    erode_kernel = np.ones(shape=(2, 2), dtype=np.uint8)
     for folder in os.listdir(img_folder):
         img_data = []
         if folder == "results":
@@ -17,6 +23,9 @@ def create_dataset(img_folder):
             image_path = os.path.join(img_folder, folder, file)
             image = cv2.imread(image_path, cv2.COLOR_BGR2RGB)
             image = cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH), interpolation=cv2.INTER_AREA)
+            if tweak:
+                image = cv2.dilate(image, erode_kernel, iterations=1)
+                image = cv2.erode(image, erode_kernel, iterations=1)
             image = cv2.bitwise_not(image)
             image = np.array(image)
             image = image.astype('float32')
@@ -27,6 +36,10 @@ def create_dataset(img_folder):
 
 
 def load_dataset(dataset_folder):
+    """
+    :param dataset_folder: path to pickle files that contain dataset made by function create_dataset()
+    :return: data and labels as numpy array
+    """
     dataset = []
     for file in os.listdir(dataset_folder):
         with open(dataset_folder + file, "rb") as pickle_file:
@@ -90,3 +103,41 @@ def decode_predictions(predictions):
     for p in predictions:
         result += decoder.get(p)
     return result
+
+
+def predict_images(model, images, verbose=False, decoded=True):
+    """
+    Predicts list of images while using given model
+    :param model: model for predicting
+    :param images: list of images to be predicted
+    :param verbose: if true shows images
+    :param decoded: if true returns predicted symbols instead of labels
+    :return:
+    """
+    predictions = []
+    for i, crop in enumerate(images):
+        img = np.array(crop)
+        img = img.astype('float32')
+        img /= 255
+        img[img < 0.4] = 0
+        img[img >= 0.7] = 1
+        if verbose:
+            cv2.imshow("test", img)
+            cv2.waitKey(0)
+        p = np.argmax(model.predict(np.expand_dims(img, axis=(0, 3))))
+        predictions.append(p)
+    if decoded:
+        return decode_predictions(predictions)
+    return predictions
+
+
+def solve(task):
+    """
+    :param task: string of the task to be evaluated
+    :return: if solved returns solution, else returns None
+    """
+    try:
+        solution = eval(task)
+        return solution
+    except SyntaxError:
+        return None

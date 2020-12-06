@@ -4,24 +4,20 @@ import numpy as np
 
 
 class Detector:
-    """Class for detection and retrieval of contours on images
+    """Implements functions for detection and retrieval of contours on images
     Parameters:
         verbose (boolean): If true shows image and contours on display
-        resize (boolean): If true image will be resized before contours search
-        width (int): If resize is true, image width will be min(original_width, width)
-        height (int): If resize is true, image height will be min(original_height, height)
-
-    Returns:
-        crop_list (np.array): numpy array of cropped images
-        crop_coord (np.array): numpy array of cropped images coordinates
+        width (int): If image width is bigger than height image will be resized to width of min(image_width, width)
+        height (int): If image height is bigger than width image will be resized to height of min(image_height, height)
 
     Methods:
-        detect(image_path): Method that searches for contours and returns them as stated
+        detect(image_path): Searches for contours and returns them as stated
+        image_fill(image, width, height): Fills image to wanted height*height or width*width size, defaults to 45pix
+        image_resize(image): Crops image to width or height while keeping the image ratio
     """
 
-    def __init__(self, verbose=False, resize=True, width=800, height=400):
+    def __init__(self, verbose=False, width=800, height=400):
         self.verbose = verbose
-        self.resize = resize
         self.width = width
         self.height = height
 
@@ -43,8 +39,9 @@ class Detector:
                                            cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 20)
 
         # image dilation
-        rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (int(max(height, width)/100), int(max(height, width)/100)))
-        image_dil = cv2.dilate(image_proc, rect_kernel, iterations=1)
+        rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT,
+                                                (int(max(height, width) / 100), int(max(height, width) / 100)))
+        image_dil = cv2.dilate(image_proc, rect_kernel, iterations=2)
 
         # find contours
         cnts, hierarchy = cv2.findContours(image_dil, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -55,6 +52,7 @@ class Detector:
         crop_coord = list()
         erode_kernel = np.ones(shape=(2, 2), dtype=np.uint8)
 
+        # dictates how big should area of contour be
         coef = 0.003
         num = 0
         while num < len(cnts) / 1.2:
@@ -67,12 +65,16 @@ class Detector:
         for c in cnts:
             if cv2.contourArea(c) > coef * width * height:
                 x, y, w, h = cv2.boundingRect(c)
-                crop = image_proc[y:y + h, x:x + w]
+                crop = image_gray[y:y + h, x:x + w]
+                crop = cv2.adaptiveThreshold(crop, 255,
+                                             cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 20)
                 crop = image_fill(crop)
                 crop = cv2.dilate(crop, erode_kernel, iterations=1)
                 crop = cv2.erode(crop, erode_kernel, iterations=1)
                 crop_list.append(crop)
                 crop_coord.append([x, y, w, h])
+
+                # shows rectangles on original image
                 if self.verbose:
                     cv2.rectangle(image, (x, y), (x + w, y + h), (36, 255, 12), 2)
 
@@ -83,12 +85,12 @@ class Detector:
         return np.array(crop_list), np.array(crop_coord)
 
 
-def image_fill(image):
+def image_fill(image, height=45, width=45):
     i_w, i_h = image.shape
     if i_w > i_h:
-        image = image_resize(image, height=45)
+        image = image_resize(image, height=height)
     else:
-        image = image_resize(image, width=45)
+        image = image_resize(image, width=width)
 
     s = max(image.shape[0:2])
     f = np.zeros((s, s), np.uint8)
@@ -101,6 +103,7 @@ def image_fill(image):
 
 
 def image_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
+    # taken from https://stackoverflow.com/a/44659589/9212313
     # initialize the dimensions of the image to be resized and
     # grab the image size
     dim = None

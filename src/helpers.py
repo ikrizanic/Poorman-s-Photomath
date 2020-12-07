@@ -38,7 +38,7 @@ def create_dataset(img_folder, tweak=False):
 def load_dataset(dataset_folder):
     """
     :param dataset_folder: path to pickle files that contain dataset made by function create_dataset()
-    :return: data and labels as numpy array
+    :return: test_images and labels as numpy array
     """
     dataset = []
     for file in os.listdir(dataset_folder):
@@ -119,8 +119,8 @@ def predict_images(model, images, verbose=False, decoded=True):
         img = np.array(crop)
         img = img.astype('float32')
         img /= 255
-        img[img < 0.4] = 0
-        img[img >= 0.7] = 1
+        # img[img < 0.4] = 0
+        # img[img >= 0.7] = 1
         if verbose:
             cv2.imshow("test", img)
             cv2.waitKey(0)

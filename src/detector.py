@@ -41,7 +41,7 @@ class Detector:
         # image dilation
         rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT,
                                                 (int(max(height, width) / 100), int(max(height, width) / 100)))
-        image_dil = cv2.dilate(image_proc, rect_kernel, iterations=2)
+        image_dil = cv2.dilate(image_proc, rect_kernel, iterations=1)
 
         # find contours
         cnts, hierarchy = cv2.findContours(image_dil, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -67,7 +67,7 @@ class Detector:
                 x, y, w, h = cv2.boundingRect(c)
                 crop = image_gray[y:y + h, x:x + w]
                 crop = cv2.adaptiveThreshold(crop, 255,
-                                             cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 20)
+                                             cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 11, 22)
                 crop = image_fill(crop)
                 crop = cv2.dilate(crop, erode_kernel, iterations=1)
                 crop = cv2.erode(crop, erode_kernel, iterations=1)

@@ -6,11 +6,13 @@ from keras.models import load_model
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras.utils.np_utils import to_categorical
 from detector import Detector
+from src.solver import parse_and_solve
 
 
 def main():
     detector = Detector(verbose=False)
-    crop_list, crop_coord = detector.detect("./data/test2.jpg")
+    crop_list, crop_coord = detector.detect("./test_images/test1.png")
+    # crop_list, crop_coord = detector.detect("./test_images/test2.jpg")
 
     # CREATE LOAD DATASET
     # create_dataset("./dataset/")
@@ -32,11 +34,12 @@ def main():
     # val_loss, val_acc = model.evaluate(X_test, y_test)
 
     # SAVE LOAD MODEL
-    # model.save("./models")
-    model = load_model("./models")
+    # model.save("./model")
+    model = load_model("./model")
 
-    task = predict_images(model, crop_list)
-    solution = solve(task)
+    task = predict_images(model, crop_list, verbose=True)
+    print(task)
+    solution = parse_and_solve(task)
     if solution is not None:
         print("Uspješno rješavanje izraza: ", task)
         print("Rješenje je: ", solution)

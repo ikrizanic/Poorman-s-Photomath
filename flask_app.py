@@ -6,7 +6,7 @@ from solver import parse_and_solve
 import os
 import cv2
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='src/templates')
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -22,7 +22,7 @@ def upload_picture():
             image.save("image.png")
             detector = Detector(verbose=False)
             crop_list, crop_coord = detector.detect("image.png")
-            model = load_model("../model")
+            model = load_model(os.path.dirname(os.path.abspath(__file__)) + "/model")
 
             task = predict_images(model, crop_list, verbose=False)
             os.remove("image.png")

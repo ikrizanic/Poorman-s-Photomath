@@ -22,7 +22,7 @@ crop areas of contours that are big enough.
 Cropped images were scaled to fit wanted dimensions of 45pix*45pix and are returned 
 as output of the first task.
 
-####Second task
+#### Second task
 Firstly sequential CNN model from Keras library was compiled, and then it was trained
 for only one epoch on a subset of Kaggle dataset of handwritten symbols counting 
 around 150k images. 

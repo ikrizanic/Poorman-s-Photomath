@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Test</title>
+</head>
+<body>
+
+            <div class="overlay"></div>
+            <div id="popup" class="popup">
+            </div>
+
+
+
+    <button id="close-btn" class="remove-image" onclick="removeImage()">X</button>
+    <img id="output" style="z-index: 101; width: 100vw; height: 100vh"/>
+    <div id="placeholder" style="position: absolute; margin-top: 50%; margin-left: 40%; margin-right: 40%; width: 10%">
+        FAKE PHOTOMATH
+    </div>
+    <form id="img-form" method="POST" enctype="multipart/form-data">
+        <div class="form-group" hidden="hidden">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image" onchange="loadFile(event)" id="file-upload">
+                <label class="custom-file-label" for="file-upload">Odaberite fotografiju...</label>
+                <div id="file-upload-filename"></div>
+            </div>
+        </div>
+        <div style="position: fixed; bottom: 3%; width: 100%">
+            <button  id="solve-btn" style="width: 90%; margin-left: 5%; margin-right: 5%" type="submit" class="btn btn-success" >
+                Solve
+            </button>
+            <button id="upload-btn" style="width: 90%; margin-left: 5%; margin-right: 5%" type="button" class="btn btn-danger" onclick="addImage()">
+                Upload
+            </button>
+        </div>
+    </form>
+
+
+<script>
+
+    const input = document.getElementById('file-upload');
+    buttonText = 'Add'
+
+    window.onload = function () {
+        removeImage()
+        document.getElementById('solve-btn').hidden = true;
+    }
+
+    function removeImage() {
+        var output = document.getElementById('output');
+        output.hidden = true
+        document.getElementById('placeholder').hidden = false
+        document.getElementById('close-btn').hidden = true
+        document.getElementById('solve-btn').hidden = true
+        document.getElementById('upload-btn').hidden = false;
+    }
+
+    function addImage() {
+        document.getElementById('file-upload').click()
+    }
+
+  var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+        output.hidden = false
+        document.getElementById('placeholder').hidden = true
+        document.getElementById('close-btn').hidden = false
+        document.getElementById('solve-btn').hidden = false;
+        document.getElementById('upload-btn').hidden = true;
+    }
+  };
+
+
+
+</script>
+
+</body>
+</html>
+
+<script>
+
+    function toggleAutomaticReactionScan() {
+    $.ajax({
+        url: '/upload',
+        type: 'post'
+    });
+}
+
+
+</script>
+
+<script>
+
+    var task = ''
+    var solution = 0
+
+   //form Submit
+   $("form").submit(function(evt){
+      evt.preventDefault();
+      var formData = new FormData($(this)[0]);
+      var closeFlag = false;
+   $.ajax({
+       url: '/upload',
+       type: 'POST',
+       data: formData,
+       async: false,
+       cache: false,
+       contentType: false,
+       enctype: 'multipart/form-data',
+       processData: false,
+       success: function (response) {
+            document.getElementById("img-form").reset();
+           task = response['task'];
+           solution = response['solution'];
+           console.log(response)
+             document.getElementById("popup").innerText = task + ' ' + solution;
+           document.getElementById('close-btn').hidden = true;
+           document.getElementById('solve-btn').hidden = true;
+           document.getElementById('upload-btn').hidden = false;
+           $(".overlay, .popup").fadeToggle();
+           $(".overlay").click(function(){
+                if(!closeFlag) {
+                    $(".overlay, .popup").fadeToggle();
+                    document.getElementById('close-btn').hidden = ! document.getElementById('close-btn').hidden;
+                    closeFlag = true
+                }
+            })
+       },
+       error: function (response) {
+           console.log(response)
+       }
+   });
+   return false;
+ });
+</script>
+
+<script>
+
+</script>

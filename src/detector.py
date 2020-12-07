@@ -22,8 +22,11 @@ class Detector:
         self.height = height
 
     def detect(self, image_path):
-        # read image from path
-        image = cv2.imread(image_path)
+        if isinstance(image_path, str):
+            # read image from path
+            image = cv2.imread(image_path)
+        else:
+            image = image_path
         height, width, _ = image.shape
         if width > height:
             image = image_resize(image, width=min(width, self.width))

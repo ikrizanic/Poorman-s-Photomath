@@ -1,0 +1,38 @@
+.overlay {
+ 	position:absolute;
+	display:none;
+
+    /* color with alpha transparency */
+    background-color: rgba(0, 0, 0, 0.3);
+
+    /* stretch to screen edges */
+    top: 0;
+	left: 0;
+    bottom: 0;
+    right: 0;
+}
+.popup {
+    position: absolute;
+    margin-bottom: 30vh;
+    width: 300px;
+    height: 150px;
+    display: none;
+    background-color: white;
+    text-align: center;
+
+}
+
+.remove-image {
+    position: absolute;
+  margin-top: 10%;
+  right: 0;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+}

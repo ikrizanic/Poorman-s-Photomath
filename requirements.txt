@@ -7,4 +7,3 @@ sklearn
 pillow
 imutils
 keras
-

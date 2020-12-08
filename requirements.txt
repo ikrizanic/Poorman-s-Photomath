@@ -6,3 +6,4 @@ gunicorn
 sklearn
 pillow
 imutils
+keras

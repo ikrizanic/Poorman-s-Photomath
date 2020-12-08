@@ -1,7 +1,7 @@
 flask
 keras
 opencv-python-headless
-numpy
+numpy==1.16.0
 gunicorn
 sklearn
 imutils

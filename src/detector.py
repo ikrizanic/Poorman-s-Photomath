@@ -56,7 +56,7 @@ class Detector:
         erode_kernel = np.ones(shape=(2, 2), dtype=np.uint8)
 
         # dictates how big should area of contour be
-        coef = 0.003
+        coef = 0.002
         num = 0
         while num < len(cnts) / 1.2:
             num = 0
@@ -72,8 +72,8 @@ class Detector:
                 crop = cv2.adaptiveThreshold(crop, 255,
                                              cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 11, 22)
                 crop = image_fill(crop)
-                crop = cv2.dilate(crop, erode_kernel, iterations=1)
                 crop = cv2.erode(crop, erode_kernel, iterations=1)
+                crop = cv2.dilate(crop, erode_kernel, iterations=1)
                 crop_list.append(crop)
                 crop_coord.append([x, y, w, h])
 

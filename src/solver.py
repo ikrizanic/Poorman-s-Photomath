@@ -8,9 +8,12 @@ def main():
 
 
 def parse_and_solve(string):
-    token_list = fill_token_list(string)
-    reverse_polish = return_reverse_polish(token_list)
-    return solve_reverse_polish(reverse_polish)
+    try:
+        token_list = fill_token_list(string)
+        reverse_polish = return_reverse_polish(token_list)
+        return solve_reverse_polish(reverse_polish)
+    except:
+        return None
 
 
 def fill_token_list(string):

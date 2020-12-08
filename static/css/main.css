@@ -3,7 +3,7 @@
 	display:none;
 
     /* color with alpha transparency */
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.7);
 
     /* stretch to screen edges */
     top: 0;
@@ -13,26 +13,64 @@
 }
 .popup {
     position: absolute;
-    margin-bottom: 30vh;
-    width: 300px;
-    height: 150px;
+    width: 80vw;
+    height: 30vh;
     display: none;
     background-color: white;
     text-align: center;
+    font-size: 70px;
+    margin: 30vh 10vw;
+    border-radius: 15px !important;
 
 }
 
 .remove-image {
-    position: absolute;
-  margin-top: 10%;
+  position: absolute;
+  margin-top: 5vh;
+    margin-right: 1vw;
   right: 0;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   background-color: #555;
   color: white;
-  font-size: 16px;
-  padding: 12px 24px;
+  font-size: xx-large;
+  padding: 32px 46px;
   border: none;
   cursor: pointer;
   border-radius: 50%;
 }
+
+.img-output {
+    z-index: 101;
+    width: 100vw;
+    height: 100vh
+}
+
+.submit-solve-btn-placeholder {
+    position: fixed;
+    bottom: 3%;
+    width: 100%
+}
+
+.submit-solve-btn {
+    width: 90%;
+    height: 7vh;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: xxx-large;
+}
+
+.logo {
+    margin-top: 10%;
+    width: 80vw;
+    height: 40vh;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+

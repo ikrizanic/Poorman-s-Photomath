@@ -6,20 +6,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title>Test</title>
+    <title>Poorman's Photomath</title>
 </head>
 <body>
-
             <div class="overlay"></div>
             <div id="popup" class="popup">
+                <div id="popup-text" class="popup-text"></div>
             </div>
-
-
 
     <button id="close-btn" class="remove-image" onclick="removeImage()">X</button>
     <img class="img-output" id="output" />
-    <div class="logo">
-        <img id="placeholder" src="../../static/test_logo.jpeg" class="center">
+    <div>
+        <img id="placeholder" src="../../static/test_logo.jpeg" class="logo">
     </div>
     <form id="img-form" method="POST" enctype="multipart/form-data">
         <div class="form-group" hidden="hidden">
@@ -115,11 +113,16 @@
        enctype: 'multipart/form-data',
        processData: false,
        success: function (response) {
-            document.getElementById("img-form").reset();
+           document.getElementById("img-form").reset();
            task = response['task'];
            solution = response['solution'];
            console.log(response)
-             document.getElementById("popup").innerText = task + ' ' + solution;
+           if (solution !== null) {
+               document.getElementById("popup-text").innerText = "I've read your task as:\n" + task + "\nThe solution is:\n" + solution;
+           } else {
+               document.getElementById("popup-text").innerText = "I've read your task as:\n" + task  + "\nI can't solve it :(";
+
+           }
            document.getElementById('close-btn').hidden = true;
            document.getElementById('solve-btn').hidden = true;
            document.getElementById('upload-btn').hidden = false;

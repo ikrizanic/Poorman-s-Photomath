@@ -11,6 +11,7 @@
     bottom: 0;
     right: 0;
 }
+
 .popup {
     position: absolute;
     width: 80vw;
@@ -18,10 +19,15 @@
     display: none;
     background-color: white;
     text-align: center;
-    font-size: 70px;
     margin: 30vh 10vw;
     border-radius: 15px !important;
-
+}
+.popup-text{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 70px;
+  align-content: center;
 }
 
 .remove-image {
@@ -49,7 +55,9 @@
 .submit-solve-btn-placeholder {
     position: fixed;
     bottom: 3%;
-    width: 100%
+    width: 100%;
+    border-radius: 10px !important;
+
 }
 
 .submit-solve-btn {
@@ -58,14 +66,18 @@
     margin-left: 5%;
     margin-right: 5%;
     font-size: xxx-large;
+    border-radius: 10px !important;
+
 }
 
 .logo {
-    margin-top: 10%;
+    margin: 10% auto auto;
     max-width: 80%;
     max-height: 40%;
     width: 80vw;
     height: 40vh;
+    top: 50%;
+   transform: translateX(10vw);
 }
 
 .center {

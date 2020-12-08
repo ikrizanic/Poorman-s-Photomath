@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
-from detector import Detector
+from src.detector import Detector
 from keras.models import load_model
-from helpers import predict_images
-from solver import parse_and_solve
+from src.helpers import predict_images
+from src.solver import parse_and_solve
 import os
 import cv2
 

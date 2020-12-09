@@ -1,7 +1,13 @@
 # Photomath task
+## Flask app url
+https://poormans-photomath.herokuapp.com/
+
 ## Manual
+
 Implementation of this solution comes with a simple Flask app that allows users to upload 
-and evaluate their images.
+and evaluate their images. You can try this app on https://poormans-photomath.herokuapp.com/
+
+Procution vesion of the flask app is on branch "heroku", while pure backend parts (detector, model and solver) are on the main branch.
 
 It is also possible to use and change this code with just cloning this repository to
 your machine. All necessary functions are uploaded here, and you can find a link to 

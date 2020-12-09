@@ -10,9 +10,8 @@ from src.solver import parse_and_solve
 
 
 def main():
-    detector = Detector(verbose=False)
-    crop_list, crop_coord = detector.detect("./test_images/test_veci.jpg")
-    # crop_list, crop_coord = detector.detect("./test_images/test2.jpg")
+    detector = Detector(verbose=True)
+    crop_list, crop_coord = detector.detect("./test_images/test2.jpg")
 
     # CREATE LOAD DATASET
     # create_dataset("./dataset/")

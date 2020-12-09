@@ -5,6 +5,7 @@ from src.helpers import predict_images
 from src.solver import parse_and_solve
 import os
 import cv2
+import time
 
 app = Flask(__name__, template_folder='src/templates')
 
@@ -18,6 +19,7 @@ def home():
 def upload_picture():
     if request.method == "POST":
         if request.files:
+            time.sleep(3)
             image = request.files["image"]
             image.save("image.png")
             detector = Detector(verbose=False)
@@ -28,12 +30,6 @@ def upload_picture():
             os.remove("image.png")
             print(task)
             solution = parse_and_solve(task)
-            if solution is not None:
-                print("Uspješno rješavanje izraza: ", task)
-                print("Rješenje je: ", solution)
-            else:
-                print("Pročitani izraz glasi: ", task)
-                print("Nažalost, izraz je pogrešno pročitan ili pogrešno zadan.")
             data = {'solution': solution, 'task': task}
             return jsonify(data)
 

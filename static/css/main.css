@@ -60,7 +60,7 @@
 
 }
 
-.submit-solve-btn {
+.solve-btn {
     width: 90%;
     height: 7vh;
     margin-left: 5%;
@@ -69,6 +69,17 @@
     border-radius: 10px !important;
 
 }
+
+.submit-btn {
+    width: 90%;
+    height: 7vh;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: xxx-large;
+    border-radius: 10px !important;
+
+}
+
 
 .logo {
     margin: 10% auto auto;
@@ -80,11 +91,21 @@
    transform: translateX(10vw);
 }
 
+.spinner {
+  position: fixed;
+  z-index: 999;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 20rem;
+  height: 20rem;
+}
+
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
 }
-
-

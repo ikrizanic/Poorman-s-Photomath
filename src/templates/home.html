@@ -9,29 +9,37 @@
     <title>Poorman's Photomath</title>
 </head>
 <body>
+
             <div class="overlay"></div>
             <div id="popup" class="popup">
                 <div id="popup-text" class="popup-text"></div>
             </div>
+
+
 
     <button id="close-btn" class="remove-image" onclick="removeImage()">X</button>
     <img class="img-output" id="output" />
     <div>
         <img id="placeholder" src="../../static/test_logo.jpeg" class="logo">
     </div>
+
+
     <form id="img-form" method="POST" enctype="multipart/form-data">
+
         <div class="form-group" hidden="hidden">
+
             <div class="custom-file">
                 <input type="file" class="custom-file-input" name="image" onchange="loadFile(event)" id="file-upload">
                 <label class="custom-file-label" for="file-upload"></label>
                 <div id="file-upload-filename"></div>
             </div>
         </div>
+
         <div class="submit-solve-btn-placeholder">
-            <button  class="btn btn-success submit-solve-btn" id="solve-btn" type="submit">
-                Solve
+            <button  class="btn btn-success solve-btn" id="solve-btn">
+               Solve
             </button>
-            <button id="upload-btn" type="button" class="btn btn-danger submit-solve-btn" onclick="addImage()">
+            <button id="upload-btn" type="button" class="btn btn-danger submit-btn" onclick="addImage()">
                 Upload
             </button>
         </div>
@@ -67,8 +75,8 @@
     output.onload = function() {
       URL.revokeObjectURL(output.src) // free memory
         output.hidden = false
-        document.getElementById('placeholder').hidden = true
-        document.getElementById('close-btn').hidden = false
+        document.getElementById('placeholder').hidden = true;
+        document.getElementById('close-btn').hidden = false;
         document.getElementById('solve-btn').hidden = false;
         document.getElementById('upload-btn').hidden = true;
     }
@@ -81,17 +89,6 @@
 </body>
 </html>
 
-<script>
-
-    function toggleAutomaticReactionScan() {
-    $.ajax({
-        url: '/upload',
-        type: 'post'
-    });
-}
-
-
-</script>
 
 <script>
 
@@ -101,9 +98,10 @@
    //form Submit
    $("form").submit(function(evt){
       evt.preventDefault();
+      document.getElementById('solve-btn').disabled = true;
       var formData = new FormData($(this)[0]);
       var closeFlag = false;
-   $.ajax({
+    $.ajax({
        url: '/upload',
        type: 'POST',
        data: formData,
@@ -113,7 +111,7 @@
        enctype: 'multipart/form-data',
        processData: false,
        success: function (response) {
-           document.getElementById("img-form").reset();
+
            task = response['task'];
            solution = response['solution'];
            console.log(response)
@@ -123,14 +121,19 @@
                document.getElementById("popup-text").innerText = "I've read your task as:\n" + task  + "\nI can't solve it :(";
 
            }
+            document.getElementById('solve-btn').disabled = false;
            document.getElementById('close-btn').hidden = true;
            document.getElementById('solve-btn').hidden = true;
            document.getElementById('upload-btn').hidden = false;
+           document.getElementById('upload-btn').disabled = true;
+
+           document.getElementById("img-form").reset();
            $(".overlay, .popup").fadeToggle();
            $(".overlay").click(function(){
                 if(!closeFlag) {
                     $(".overlay, .popup").fadeToggle();
                     document.getElementById('close-btn').hidden = ! document.getElementById('close-btn').hidden;
+                    document.getElementById('upload-btn').disabled = false;
                     closeFlag = true
                 }
             })
@@ -141,8 +144,4 @@
    });
    return false;
  });
-</script>
-
-<script>
-
 </script>

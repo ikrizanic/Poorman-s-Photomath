@@ -45,7 +45,7 @@ implementation of this solution, and usable solution would require much more com
 approach.
 
 ## Links
-- dataset: https://brilliant.org/wiki/shunting-yard-algorithm/
+- dataset: https://www.kaggle.com/xainano/handwrittenmathsymbols
 - dataset subset: https://drive.google.com/file/d/1g-BnJr-QiftCtWW_s4itgrCyfE7hsieD/view?usp=sharing
 - Shunting-yard algorithm: https://brilliant.org/wiki/shunting-yard-algorithm/
 - Keras library: https://keras.io/
